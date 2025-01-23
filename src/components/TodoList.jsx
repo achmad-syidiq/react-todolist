@@ -1,7 +1,15 @@
 /* eslint-disable react/prop-types */
 const TodoList = ({ todos }) => {
+  if (!todos.length) {
+    return (
+      <div className="bg-gray-400 p-4 shadow-lg rounded-lg mt-6">
+        <p className="text-center text-lg font-semibold text-gray-200">No todos yet</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="bg-gray-400 p-4 shadow-lg rounded-lg mt-6">
+    <div className="bg-gray-400 p-4 shadow-lg rounded-lg mt-3">
       <ul className="space-y-3">
         {todos.map((todo) => (
           <li
