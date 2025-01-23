@@ -2,7 +2,7 @@ import { AiFillEdit, AiFillDelete, AiOutlineCheck, AiOutlineClose } from "react-
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 
-const TodoList = ({ todos, onUpdate, onDelete }) => {
+const TodoList = ({ todos, onUpdate, onDelete, onUpdateStatus }) => {
   const [editing, setEditing] = useState(null);
   const [newTodo, setNewTodo] = useState("");
 
@@ -17,6 +17,10 @@ const TodoList = ({ todos, onUpdate, onDelete }) => {
     setEditing(null);
   };
 
+  const handleUpdateStatus = (id) => {
+    console.log(id);
+    onUpdateStatus(id);
+  };
   const handleDelete = (id) => {
     onDelete(id);
   };
@@ -58,8 +62,21 @@ const TodoList = ({ todos, onUpdate, onDelete }) => {
       ) : (
         <>
           <div className="flex gap-2 items-center">
-            <input className="h-5 w-5 text-indigo-600" type="checkbox" />
-            <span className="text-lg font-semibold text-gray-600">{todo.text}</span>
+            <input
+              className="h-4 w-4 mr-2 rounded"
+              type="checkbox"
+              checked={todo.isCompleted}
+              onChange={() => handleUpdateStatus(todo.id)}
+              id={todo.id}
+            />
+            <label
+              htmlFor={todo.id}
+              className={`font-semibold text-lg ${
+                !todo.isCompleted ? "text-gray-700" : "text-gray-400 line-through"
+              }`}
+            >
+              {todo.text}
+            </label>
           </div>
           <div className="flex gap-2">
             <button
