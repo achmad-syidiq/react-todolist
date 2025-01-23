@@ -1,10 +1,13 @@
 import TodoHeader from "./components/TodoHeader";
 import TodoList from "./components/TodoList";
 import TodoForm from "./components/TodoForm";
-import { useEffect, useState } from "react";
+import TodoFilter from "./components/TodoFilter";
+import { useState, useEffect } from "react";
 
 const App = () => {
   const [todos, setTodos] = useState([]);
+  const [filter, setFilter] = useState("all");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
@@ -49,13 +52,33 @@ const App = () => {
     setTodos(filteredTodos);
   };
 
+  const filteredTodos = todos.filter((todo) => {
+    if (filter === "all") {
+      return true;
+    }
+    return todo.isCompleted === (filter === "completed");
+  });
+
+  const handleFilterChange = (newFilter) => {
+    setFilter(newFilter);
+    setIsDropdownOpen(false);
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center font-mono">
       <div className="w-full max-w-xl bg-gray-100 rounded-lg shadow-lg p-6">
         <TodoHeader>TodoList App</TodoHeader>
-        <TodoForm onAdd={addTodo} />
+        <div className="flex items-center justify-between">
+        <TodoFilter
+            filter={filter}
+            onFilterChange={handleFilterChange}
+            isDropdownOpen={isDropdownOpen}
+            setIsDropdownOpen={setIsDropdownOpen}
+          />
+          <TodoForm onAdd={addTodo} />
+        </div>
         <TodoList
-          todos={todos}
+          todos={filteredTodos}
           onUpdate={updateTodo}
           onDelete={deleteTodo}
           onUpdateStatus={updateStatus}
@@ -66,3 +89,4 @@ const App = () => {
 };
 
 export default App;
+
