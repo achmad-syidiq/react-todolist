@@ -24,12 +24,23 @@ const App = () => {
     setTodos([...todos, newTodo]);
   };
 
+  const updateTodo = (id, text) => {
+    const updatedTodos = todos.map((todo) => {
+      if (todo.id === id) {
+        return { ...todo, text };
+      }
+      return todo;
+    });
+    setTodos(updatedTodos);
+  };
+
+  
   return (
     <div className="min-h-screen flex items-center justify-center font-mono">
       <div className="w-full max-w-xl bg-gray-100 rounded-lg shadow-lg p-6">
         <TodoHeader>TodoList App</TodoHeader>
         <TodoForm onAdd={addTodo} />
-        <TodoList todos={todos} />
+        <TodoList todos={todos} onUpdate={updateTodo} />
       </div>
     </div>
   );
