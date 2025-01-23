@@ -1,9 +1,8 @@
-import { AiOutlineClose } from "react-icons/ai";
-import { AiOutlineCheck } from "react-icons/ai";
+import { AiFillEdit, AiFillDelete, AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 
-const TodoList = ({ todos, onUpdate }) => {
+const TodoList = ({ todos, onUpdate, onDelete }) => {
   const [editing, setEditing] = useState(null);
   const [newTodo, setNewTodo] = useState("");
 
@@ -16,6 +15,10 @@ const TodoList = ({ todos, onUpdate }) => {
   const handleUpdate = (id) => {
     onUpdate(id, newTodo);
     setEditing(null);
+  };
+
+  const handleDelete = (id) => {
+    onDelete(id);
   };
 
   const handleCancel = () => {
@@ -59,10 +62,18 @@ const TodoList = ({ todos, onUpdate }) => {
             <span className="text-lg font-semibold text-gray-600">{todo.text}</span>
           </div>
           <div className="flex gap-2">
-            <button className="p-2 bg-gray-200 rounded-md" onClick={() => handleEdit(todo.id)}>
-              ✏️
+            <button
+              className="p-2 bg-green-500 rounded-md text-white"
+              onClick={() => handleEdit(todo.id)}
+            >
+              <AiFillEdit className="text-2xl" />{" "}
             </button>
-            <button className="p-2 bg-gray-200 rounded-md">🗑️</button>
+            <button
+              className="p-2 bg-red-500 rounded-md text-white"
+              onClick={() => handleDelete(todo.id)}
+            >
+              <AiFillDelete className="text-2xl" />
+            </button>
           </div>
         </>
       )}
